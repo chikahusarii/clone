@@ -1,22 +1,12 @@
 #!/bin/bash
 echo "This assumes that you are doing a green-field install.  If you're not, please exit in the next 15 seconds."
 sleep 15
-echo "Continuing install, this will prompt you for your password if you're not already running as root and you didn't enable passwordless .  Please do not run me as root!"
-if [[ `whoami` == "root" ]]; then
-    echo "You ran me as root! Do not run me as root!"
-    exit 1
-fi
-CURUSER=$(whoami)
-
-if which yum >/dev/null; then
    yum -y update
    yum -y upgrade
    yum -y install git curl make gcc-c++ python boost-devel boost-system-devel boost-date-time-devel libsodium-devel
-else
    apt-get update
    DEBIAN_FRONTEND=noninteractive apt-get -y upgrade
    DEBIAN_FRONTEND=noninteractive apt-get -y install git curl make g++ python libboost-dev libboost-system-dev libboost-date-time-dev libsodium-dev
-fi
 cd ~
 git clone https://github.com/MoneroOcean/xmr-node-proxy
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash
